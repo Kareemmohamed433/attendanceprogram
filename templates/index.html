@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8">
+    <title>نظام التعرف على الوجوه</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        img { max-width: 100%; height: auto; }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>بث الكاميرا مع التعرف على الوجوه</h1>
+    <img src="{{ url_for('video_feed') }}" alt="بث الكاميرا">
+    <br>
+    <a class="button" href="{{ url_for('start_attendance') }}">Start Attendance</a>
+    <a class="button" href="{{ url_for('end_attendance') }}">End Attendance</a>
+    <br>
+    <a class="button" href="{{ url_for('attendance_status') }}">عرض حالة الحضور والشهرية والدفع</a>
+    <a class="button" href="{{ url_for('total_payment') }}">حساب إجمالي المدفوع</a>
+    <a class="button" href="{{ url_for('set_fee') }}">تعديل قيمة الرسوم</a>
+</body>
+</html>
+
+

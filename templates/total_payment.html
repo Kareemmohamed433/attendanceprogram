@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8">
+    <title>إجمالي المدفوع</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; text-align: center; }
+        .info { font-size: 20px; margin: 10px; }
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>إجمالي المدفوع</h1>
+    <p class="info">عدد الطلاب الذين دفعوا: {{ paid_count }}</p>
+    <p class="info">قيمة الرسوم لكل طالب: {{ fee }}</p>
+    <p class="info">الإجمالي: {{ total }}</p>
+    <p><a class="button" href="{{ url_for('attendance_status') }}">العودة</a></p>
+</body>
+</html>
+

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8">
+    <title>تحديد طريقة الدفع للطالب</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; text-align: center; }
+        select, input[type="submit"] {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>تحديد طريقة الدفع للطالب: {{ student }}</h1>
+    <form method="POST">
+        <label for="payment_method">اختر طريقة الدفع:</label>
+        <select name="payment_method" id="payment_method" required>
+            <option value="">-- اختر --</option>
+            <option value="Vodafone Cash">Vodafone Cash</option>
+            <option value="Insta Pay">Insta Pay</option>
+            <option value="Cash">Cash</option>
+        </select>
+        <br>
+        <input type="submit" value="تأكيد">
+    </form>
+    <p><a class="button" href="{{ url_for('attendance_status') }}">العودة</a></p>
+</body>
+</html>
