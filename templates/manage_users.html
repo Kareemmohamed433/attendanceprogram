@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <title>إدارة المستخدمين</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .button {
+      padding: 5px 10px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>إدارة المستخدمين</h2>
+  <table>
+    <tr>
+      <th>اسم المستخدم</th>
+      <th>الدور</th>
+      <th>الإجراءات</th>
+    </tr>
+    {% for username, info in users.items() %}
+      <tr>
+        <td>{{ username }}</td>
+        <td>{{ info.role }}</td>
+        <td>
+          {% if username != 'admin' %}
+            <form action="{{ url_for('delete_user', username=username) }}" method="post" style="display:inline;">
+              <button class="button" type="submit">حذف</button>
+            </form>
+          {% else %}
+            -
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <br>
+  <a class="button" style="background-color:#4CAF50;" href="{{ url_for('home') }}">عودة للصفحة الرئيسية</a>
+</body>
+</html>
+

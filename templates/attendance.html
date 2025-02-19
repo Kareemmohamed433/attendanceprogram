@@ -1,52 +1,69 @@
 <!doctype html>
 <html lang="ar">
 <head>
-    <meta charset="utf-8">
-    <title>حالة الحضور والشهرية والدفع</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { text-align: center; }
-        table { width: 80%; margin: auto; border-collapse: collapse; }
-        table, th, td { border: 1px solid black; }
-        th, td { padding: 10px; text-align: center; }
-        .button {
-            padding: 5px 10px;
-            background-color: #008CBA;
-            color: white;
-            text-decoration: none;
-            border-radius: 3px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>حالة الحضور</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .button {
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 14px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-    <h1>حالة الحضور والشهرية والدفع</h1>
-    <table>
-        <tr>
-            <th>الطالب</th>
-            <th>عدد الحضور</th>
-            <th>تنبيه الحضور</th>
-            <th>حالة الدفع</th>
-            <th>طريقة الدفع</th>
-            <th>الإجراء</th>
-        </tr>
-        {% for item in monthly_data %}
-        <tr>
-            <td>{{ item.name }}</td>
-            <td>{{ item.count }}</td>
-            <td>{{ item.message }}</td>
-            <td>{{ item.paid }}</td>
-            <td>{{ item.method }}</td>
-            <td>
-                {% if item.paid == "Not Paid" %}
-                    <a class="button" href="{{ url_for('mark_paid', student=item.name) }}">Mark as Paid</a>
-                {% else %}
-                    ---
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    <p style="text-align: center;"><a class="button" href="{{ url_for('index') }}">العودة</a></p>
+  <h2>حالة الحضور الشهري</h2>
+  <table>
+    <tr>
+      <th>الطالب</th>
+      <th>عدد الأيام</th>
+      <th>ملاحظات</th>
+      <th>الدفع</th>
+      <th>طريقة الدفع</th>
+      <th>تحديد الدفع</th>
+    </tr>
+    {% for data in monthly_data %}
+    <tr>
+      <td>{{ data.name }}</td>
+      <td>{{ data.count }}</td>
+      <td>{{ data.message }}</td>
+      <td>{{ data.paid }}</td>
+      <td>{{ data.method }}</td>
+      <td>
+        {% if data.paid == 'Not Paid' %}
+          <a class="button" href="{{ url_for('mark_paid', student=data.name) }}">تحديد الدفع</a>
+        {% else %}
+          -
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <br>
+  <a class="button" href="{{ url_for('home') }}">عودة للصفحة الرئيسية</a>
 </body>
 </html>
 

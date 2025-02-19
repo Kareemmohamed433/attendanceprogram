@@ -1,26 +1,35 @@
 <!doctype html>
 <html lang="ar">
 <head>
-    <meta charset="utf-8">
-    <title>إجمالي المدفوع</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; text-align: center; }
-        .info { font-size: 20px; margin: 10px; }
-        .button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>إجمالي المدفوع</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <h1>إجمالي المدفوع</h1>
-    <p class="info">عدد الطلاب الذين دفعوا: {{ paid_count }}</p>
-    <p class="info">قيمة الرسوم لكل طالب: {{ fee }}</p>
-    <p class="info">الإجمالي: {{ total }}</p>
-    <p><a class="button" href="{{ url_for('attendance_status') }}">العودة</a></p>
+  <h2>إجمالي المدفوع</h2>
+  <p>عدد الطلاب الذين دفعوا: {{ paid_count }}</p>
+  <p>الرسوم لكل طالب: {{ fee }}</p>
+  <p>المجموع: {{ total }}</p>
+  <br>
+  <a class="button" href="{{ url_for('home') }}">عودة للصفحة الرئيسية</a>
 </body>
 </html>
 

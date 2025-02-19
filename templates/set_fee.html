@@ -1,35 +1,39 @@
 <!doctype html>
 <html lang="ar">
 <head>
-    <meta charset="utf-8">
-    <title>تعديل قيمة الرسوم</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; text-align: center; }
-        input[type="number"] {
-            padding: 10px;
-            font-size: 16px;
-            width: 200px;
-        }
-        .button {
-            padding: 10px 20px;
-            background-color: #008CBA;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>تعديل الرسوم</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <h1>تعديل قيمة الرسوم لكل طالب</h1>
-    <form method="POST">
-        <input type="number" name="fee" step="0.01" value="{{ fee }}" required>
-        <br><br>
-        <input class="button" type="submit" value="تحديث">
-    </form>
-    <p><a class="button" href="{{ url_for('index') }}">العودة</a></p>
+  <h2>تعديل قيمة الرسوم</h2>
+  <form method="post">
+    <label>قيمة الرسوم:</label>
+    <input type="number" name="fee" step="0.01" value="{{ fee }}" required>
+    <br><br>
+    <button class="button" type="submit">تحديث</button>
+  </form>
+  <br>
+  <a class="button" href="{{ url_for('home') }}">عودة للصفحة الرئيسية</a>
 </body>
 </html>
+
 
