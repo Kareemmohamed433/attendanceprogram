@@ -1,4 +1,4 @@
-<!doctype html>
+<<!doctype html>
 <html lang="ar">
 <head>
   <meta charset="utf-8">
@@ -7,20 +7,24 @@
     body {
       text-align: center;
       font-family: Arial, sans-serif;
-      background: #f2f2f2;
+      background: url("/static/images/background3.jpg") no-repeat center center fixed;
+      background-size: cover;
       padding: 20px;
     }
     table {
       margin: 0 auto;
       border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.9); /* خلفية بيضاء شفافة قليلاً */
+      border-radius: 10px;
     }
     th, td {
-      border: 1px solid #ccc;
+      border: 1px solid black; /* لون الحدود أسود */
       padding: 8px 12px;
+      color: black; /* لون النص أسود */
     }
     th {
       background-color: #4CAF50;
-      color: white;
+      color: white; /* عناوين الأعمدة بلون أبيض */
     }
     .button {
       display: inline-block;
@@ -66,7 +70,3 @@
   <a class="button" href="{{ url_for('home') }}">عودة للصفحة الرئيسية</a>
 </body>
 </html>
-
-
-
-
