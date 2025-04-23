@@ -1,77 +1,289 @@
-<!doctype html>
-<html lang="ar">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <title>إضافة مستخدم جديد</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      background: url("/static/images/background3.jpg") no-repeat center center fixed;
-      background-size: cover;
-      padding: 20px;
-      color: white; /* لضمان وضوح النص على الخلفية */
-    }
-    .container {
-      background: #fff;
-      border-radius: 10px;
-      padding: 30px;
-      margin: 40px auto;
-      max-width: 400px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input {
-      padding: 10px;
-      margin-bottom: 15px;
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .button {
-      padding: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      width: 100%;
-    }
-    .button:hover {
-      background-color: #45a049;
-    }
-    .flash-messages ul {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 15px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>تسجيل طالب جديد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --success-color: #2ecc71;
+            --success-dark: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-color: #f5f7fa;
+            --border-color: #ddd;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        h1 {
+            color: var(--dark-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 28px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        input, select {
+            font-family: 'Cairo', sans-serif;
+            padding: 12px 15px;
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        button {
+            font-family: 'Cairo', sans-serif;
+            padding: 14px 30px;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: var(--success-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .flash {
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .back-link:hover {
+            color: var(--dark-color);
+            text-decoration: underline;
+        }
+        
+        small {
+            display: block;
+            margin-top: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .role-description {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            border-right: 4px solid var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            input, select {
+                padding: 10px 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>إضافة مستخدم جديد</h2>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul>
-          {% for category, message in messages %}
-            <li style="color: {% if category == 'danger' %}red{% elif category == 'success' %}green{% elif category == 'warning' %}orange{% else %}black{% endif %};">
-              {{ message }}
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    <form method="post">
-      <input type="text" name="username" placeholder="اسم المستخدم" required>
-      <input type="password" name="password" placeholder="كلمة المرور" required>
-      <input type="text" name="role" placeholder="الدور (admin أو user)" value="user" required>
-      <button type="submit" class="button">إضافة المستخدم</button>
-    </form>
-    <br>
-    <a class="button" href="{{ url_for('home') }}">عودة للصفحة الرئيسية</a>
-  </div>
+    <div class="container">
+        <h1>تسجيل مستخدم جديد</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>نوع المستخدم:</label>
+                <select name="role" id="roleSelect" onchange="toggleFields()">
+                    <option value="student" selected>طالب</option>
+                    <option value="teacher">معلم</option>
+                    <option value="admin">مسؤول</option>
+                </select>
+            </div>
+            
+            <div id="roleDescription" class="role-description">
+                <p id="studentDesc">يتم تسجيل الطلاب الجدد لحضور الدروس والمحاضرات</p>
+                <p id="teacherDesc" class="hidden">يتم تسجيل المعلمين الجدد لإدارة الدروس والمجموعات</p>
+                <p id="adminDesc" class="hidden">يتم تسجيل المسؤولين الجدد لإدارة النظام بالكامل</p>
+            </div>
+            
+            <div id="userFields" class="hidden">
+                <div class="form-group">
+                    <label>اسم المستخدم:</label>
+                    <input type="text" name="username" required>
+                    <small>يجب أن يكون اسم المستخدم فريداً</small>
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور:</label>
+                    <input type="password" name="password" required>
+                    <small>يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل</small>
+                </div>
+            </div>
+            
+            <div id="studentFields">
+                <div class="form-group">
+                    <label>الاسم الكامل:</label>
+                    <input type="text" name="student_name" required>
+                    <small>يجب إدخال الاسم الثلاثي للطالب</small>
+                </div>
+                <div class="form-group">
+                    <label>رقم الهاتف:</label>
+                    <input type="tel" name="phone_number" required pattern="[0-9]{10}" title="يجب إدخال 10 أرقام">
+                    <small>يجب أن يتكون من 10 أرقام (مثال: 05XXXXXXXX)</small>
+                </div>
+                <div class="form-group">
+                    <label>المستوى التعليمي:</label>
+                    <select name="level" required>
+                        <option value="">اختر المستوى</option>
+                        <option value="مبتدئ">مبتدئ</option>
+                        <option value="متوسط">متوسط</option>
+                        <option value="متقدم">متقدم</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>المجموعة/الجلسة:</label>
+                    <select name="group" required>
+                        <option value="">اختر مجموعة أو جلسة</option>
+                        {% for group in groups %}
+                            <option value="{{ group.name }}">{{ group.name }} - {{ group.time }}</option>
+                        {% endfor %}
+                        {% for section in sections %}
+                            <option value="{{ section.name }}">{{ group.name }} - {{ section.date }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>صورة الشخصية:</label>
+                    <input type="file" name="student_image" accept="image/*" required>
+                    <small>يجب أن تكون الصورة واضحة بوجه مباشر (يفضل صورة بخلفية بيضاء)</small>
+                </div>
+            </div>
+            
+            <button type="submit">حفظ البيانات</button>
+        </form>
+        
+        <a href="{{ url_for('home') }}" class="back-link">← العودة للصفحة الرئيسية</a>
+    </div>
+    
+    <script>
+        function toggleFields() {
+            const role = document.getElementById('roleSelect').value;
+            const studentFields = document.getElementById('studentFields');
+            const userFields = document.getElementById('userFields');
+            
+            // Hide all descriptions first
+            document.querySelectorAll('#roleDescription p').forEach(p => {
+                p.classList.add('hidden');
+            });
+            
+            if (role === 'student') {
+                studentFields.style.display = 'block';
+                userFields.style.display = 'none';
+                document.getElementById('studentDesc').classList.remove('hidden');
+            } else {
+                studentFields.style.display = 'none';
+                userFields.style.display = 'block';
+                if (role === 'teacher') {
+                    document.getElementById('teacherDesc').classList.remove('hidden');
+                } else {
+                    document.getElementById('adminDesc').classList.remove('hidden');
+                }
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleFields();
+        });
+    </script>
 </body>
 </html>
-
-

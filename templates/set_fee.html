@@ -1,41 +1,161 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <title>تعديل الرسوم</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>نظام الحضور - تعديل الرسوم</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      background: url("/static/images/background3.jpg") no-repeat center center fixed;
-      background-size: cover;
-      padding: 20px;
-      color: white; /* لضمان وضوح النص على الخلفية */
+    :root {
+      --primary-color: #3498db;
+      --primary-dark: #2980b9;
+      --success-color: #2ecc71;
+      --success-dark: #27ae60;
+      --danger-color: #e74c3c;
+      --warning-color: #f39c12;
+      --dark-color: #2c3e50;
+      --light-color: #f8f9fa;
+      --border-color: #ddd;
+      --text-color: #333;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
     }
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
+    
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: var(--light-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    .container {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 40px;
+      width: 100%;
+      max-width: 500px;
+      margin: 20px;
+      text-align: center;
+    }
+    
+    h2 {
+      color: var(--dark-color);
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 24px;
+    }
+    
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    
+    .form-group {
+      text-align: right;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: var(--dark-color);
+    }
+    
+    input {
+      font-family: 'Cairo', sans-serif;
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
       font-size: 16px;
-      background-color: #4CAF50;
-      color: white;
+      transition: var(--transition);
+      text-align: center;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    .button {
+      font-family: 'Cairo', sans-serif;
+      padding: 14px 25px;
+      font-size: 16px;
+      font-weight: 600;
       border: none;
-      border-radius: 5px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
       text-decoration: none;
-      margin-top: 20px;
+      display: inline-block;
+    }
+    
+    .button-primary {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .button-primary:hover {
+      background-color: var(--success-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .button-secondary {
+      background-color: var(--primary-color);
+      color: white;
+      margin-top: 15px;
+    }
+    
+    .button-secondary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    @media (max-width: 576px) {
+      .container {
+        padding: 30px 20px;
+      }
+      
+      h2 {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <h2>تعديل قيمة الرسوم</h2>
-  <form method="post">
-    <label>قيمة الرسوم:</label>
-    <input type="number" name="fee" step="0.01" value="{{ fee }}" required>
-    <br><br>
-    <button class="button" type="submit">تحديث</button>
-  </form>
-  <br>
-  <a class="button" href="{{ url_for('home') }}">عودة للصفحة الرئيسية</a>
+  <div class="container">
+    <h2>تعديل قيمة الرسوم الدراسية</h2>
+    
+    <form method="post">
+      <div class="form-group">
+        <label for="fee">قيمة الرسوم (ريال سعودي):</label>
+        <input type="number" id="fee" name="fee" step="0.01" min="0" value="{{ fee }}" required>
+      </div>
+      
+      <button type="submit" class="button button-primary">حفظ التعديلات</button>
+    </form>
+    
+    <div class="actions">
+      <a href="{{ url_for('home') }}" class="button button-secondary">العودة للصفحة الرئيسية</a>
+    </div>
+  </div>
 </body>
 </html>
-
-

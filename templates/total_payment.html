@@ -1,37 +1,157 @@
-<!doctype html>
-<html lang="ar">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <title>إجمالي المدفوع</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      background: url("/static/images/background3.jpg") no-repeat center center fixed;
-      background-size: cover;
-      padding: 20px;
-      color: white; /* لضمان وضوح النص على الخلفية */
-    }
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>إجمالي المدفوعات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --dark-color: #2c3e50;
+            --light-color: #f5f7fa;
+            --success-color: #27ae60;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 650px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        h1 {
+            color: var(--dark-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 28px;
+        }
+        
+        .summary-card {
+            background: #f9f9f9;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-label {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .summary-value {
+            font-weight: 700;
+            color: var(--success-color);
+        }
+        
+        .total-item {
+            background: rgba(39, 174, 96, 0.1);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 10px;
+        }
+        
+        .total-item .summary-value {
+            font-size: 22px;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .summary-item {
+                font-size: 16px;
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h2>إجمالي المدفوع</h2>
-  <p>عدد الطلاب الذين دفعوا: {{ paid_count }}</p>
-  <p>الرسوم لكل طالب: {{ fee }}</p>
-  <p>المجموع: {{ total }}</p>
-  <br>
-  <a class="button" href="{{ url_for('home') }}">عودة للصفحة الرئيسية</a>
+    <div class="container">
+        <h1>تقرير إجمالي المدفوعات</h1>
+        
+        <div class="summary-card">
+            <div class="summary-item">
+                <span class="summary-label">عدد الطلاب الذين دفعوا:</span>
+                <span class="summary-value">{{ paid_count }} طالب</span>
+            </div>
+            
+            <div class="summary-item">
+                <span class="summary-label">الرسوم لكل طالب:</span>
+                <span class="summary-value">{{ fee }} ر.س</span>
+            </div>
+            
+            <div class="summary-item total-item">
+                <span class="summary-label">المبلغ الإجمالي المدفوع:</span>
+                <span class="summary-value">{{ total }} ر.س</span>
+            </div>
+        </div>
+        
+        <div class="button-container">
+            <a class="button" href="{{ url_for('home') }}">العودة إلى الصفحة الرئيسية</a>
+        </div>
+    </div>
 </body>
 </html>
-

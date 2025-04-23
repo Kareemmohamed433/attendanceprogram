@@ -1,74 +1,420 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>نظام التعرف على الوجوه</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #3498db;
+      --primary-hover: #2980b9;
+      --success-color: #2ecc71;
+      --success-hover: #27ae60;
+      --danger-color: #e74c3c;
+      --danger-hover: #c0392b;
+      --admin-color: #9b59b6;
+      --admin-hover: #8e44ad;
+      --dark-color: #2c3e50;
+      --light-color: #f5f7fa;
+      --text-color: #333;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
     body {
-      text-align: center;
-      font-family: Arial, sans-serif;
+      font-family: 'Cairo', sans-serif;
       margin: 0;
-      padding: 20px;
-      background: #f2f2f2;
+      padding: 0;
+      background: var(--light-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-color);
+      line-height: 1.6;
     }
     
-    /* خلفية الصفحة الرئيسية */
-    body.home-page {
-      background: url("{{ url_for('static', filename='images/backgraound2.jpg') }}") no-repeat center center fixed;
-      background-size: cover;
+    .header {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     
-    img {
-      max-width: 100%;
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+    }
+    
+    .video-container {
+      width: 90%;
+      max-width: 800px;
+      border: 3px solid #ddd;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      margin: 25px 0;
+      position: relative;
+      background: #000;
+    }
+    
+    .video-container::before {
+      content: "بث مباشر للكاميرا";
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      z-index: 10;
+    }
+    
+    video {
+      width: 100%;
       height: auto;
-      border: 2px solid #ccc;
-      margin-bottom: 20px;
+      display: block;
+    }
+    
+    .video-error {
+      display: none;
+      color: var(--danger-color);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      z-index: 10;
+    }
+    
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin: 15px 0;
     }
     
     .button {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 16px;
-      margin: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 25px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      background-color: #4CAF50;
+      background-color: var(--primary-color);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: var(--border-radius);
       text-decoration: none;
-      transition: background-color 0.3s ease;
+      transition: var(--transition);
+      font-family: 'Cairo', sans-serif;
     }
     
     .button:hover {
-      background-color: #45a049;
+      background-color: var(--primary-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .button.primary {
+      background-color: var(--success-color);
+    }
+    
+    .button.primary:hover {
+      background-color: var(--success-hover);
+    }
+    
+    .button.danger {
+      background-color: var(--danger-color);
+    }
+    
+    .button.danger:hover {
+      background-color: var(--danger-hover);
+    }
+    
+    .button.admin {
+      background-color: var(--admin-color);
+    }
+    
+    .button.admin:hover {
+      background-color: var(--admin-hover);
+    }
+    
+    .info-section {
+      max-width: 800px;
+      width: 90%;
+      margin: 30px auto;
+      padding: 25px;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      border-top: 4px solid var(--dark-color);
+    }
+    
+    .info-section h2 {
+      color: var(--dark-color);
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+    
+    .info-section ul {
+      padding-right: 20px;
+    }
+    
+    .info-section li {
+      margin-bottom: 10px;
+    }
+    
+    .system-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px dashed #ddd;
+    }
+    
+    .info-item {
+      background: #f9f9f9;
+      padding: 12px;
+      border-radius: var(--border-radius);
+    }
+    
+    .info-item strong {
+      display: block;
+      color: var(--dark-color);
+      margin-bottom: 5px;
+    }
+    
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+      
+      .info-section {
+        padding: 15px;
+      }
+      
+      .button-group {
+        gap: 10px;
+      }
+    }
+    
+    @media print {
+      .header, .button-group {
+        display: none;
+      }
+      
+      .video-container {
+        border: none;
+        box-shadow: none;
+      }
+      
+      .info-section {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #121212;
+        color: #f1f1f1;
+      }
+      
+      .info-section {
+        background: #1e1e1e;
+        color: #f1f1f1;
+      }
+      
+      .info-section h2 {
+        color: #f1f1f1;
+      }
+      
+      .info-item {
+        background: #2d2d2d;
+      }
+      
+      .video-container {
+        border-color: #444;
+      }
+      
+      .video-error {
+        background: rgba(30, 30, 30, 0.9);
+        color: #e74c3c;
+      }
     }
   </style>
 </head>
-<body class="home-page"> <!-- تمت إضافة class لتطبيق الخلفية الجديدة -->
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">نظام التعرف على الوجوه</div>
+      <div class="button-group">
+        <a class="button" href="{{ url_for('attendance_status') }}">
+          <i class="fas fa-clipboard-list"></i> عرض الحضور
+        </a>
+        <a class="button" href="{{ url_for('total_payment') }}">
+          <i class="fas fa-money-bill-wave"></i> إجمالي المدفوع
+        </a>
+        <a class="button" href="{{ url_for('set_fee') }}">
+          <i class="fas fa-edit"></i> تعديل الرسوم
+        </a>
+        {% if session.user == 'admin' %}
+        <a class="button admin" href="{{ url_for('register') }}">
+          <i class="fas fa-user-plus"></i> إضافة مستخدم
+        </a>
+        <a class="button admin" href="{{ url_for('manage_users') }}">
+          <i class="fas fa-users-cog"></i> إدارة المستخدمين
+        </a>
+        <a class="button admin" href="{{ url_for('add_section') }}">
+          <i class="fas fa-calendar-plus"></i> إضافة جلسة
+        </a>
+        <a class="button admin" href="{{ url_for('send_message') }}">
+          <i class="fas fa-envelope"></i> إرسال رسالة
+        </a>
+        {% endif %}
+        <a class="button danger" href="{{ url_for('logout') }}">
+          <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+        </a>
+      </div>
+    </div>
+  </header>
 
-  <h1>بث الكاميرا مع التعرف على الوجوه</h1>
-  <img src="{{ url_for('video_feed') }}" alt="بث الكاميرا">
-  <br>
-  <a class="button" href="{{ url_for('start_attendance') }}">بدء الحضور</a>
-  <a class="button" href="{{ url_for('end_attendance') }}">إنهاء الحضور</a>
-  <br>
-  <a class="button" href="{{ url_for('attendance_status') }}">عرض حالة الحضور والدفع</a>
-  <a class="button" href="{{ url_for('total_payment') }}">حساب إجمالي المدفوع</a>
-  <a class="button" href="{{ url_for('set_fee') }}">تعديل الرسوم</a>
-  
-  {% if session.user == 'admin' %}
-    <br>
-    <a class="button" href="{{ url_for('register') }}">إضافة مستخدم جديد</a>
-    <a class="button" href="{{ url_for('manage_users') }}">إدارة المستخدمين</a>
-  {% endif %}
-  
-  <br>
-  <a class="button" href="{{ url_for('logout') }}">تسجيل الخروج</a>
+  <main class="main-content">
+    <div class="video-container">
+      <video autoplay playsinline src="{{ url_for('video_feed') }}" alt="بث الكاميرا"></video>
+      <div class="video-error" id="videoError">فشل تحميل بث الكاميرا. يرجى التحقق من اتصال الكاميرا أو إعادة تحميل الصفحة.</div>
+    </div>
+    
+    <div class="button-group">
+      <a class="button primary" href="{{ url_for('start') }}">
+        <i class="fas fa-play"></i> بدء الحضور
+      </a>
+      <a class="button danger" href="{{ url_for('end') }}">
+        <i class="fas fa-stop"></i> إنهاء الحضور
+      </a>
+    </div>
+  </main>
 
+  <div class="info-section">
+    <h2>معلومات النظام</h2>
+    <p>هذا النظام يستخدم تقنية التعرف على الوجوه لتسجيل الحضور تلقائياً. يرجى التأكد من:</p>
+    <ul>
+      <li>وجود إضاءة كافية أمام الكاميرا</li>
+      <li>الوقوف على بعد مناسب من الكاميرا (1-2 متر)</li>
+      <li>إزالة أي عوائق أمام الوجه (نظارات شمسية، أقنعة)</li>
+      <li>النظر مباشرة إلى الكاميرا للحصول على أفضل النتائج</li>
+      <li>تجنب الحركة السريعة أثناء التعرف</li>
+    </ul>
+    
+    <div class="system-info">
+      <div class="info-item">
+        <strong>حالة النظام:</strong>
+        <span>{% if capturing %}يعمل{% else %}متوقف{% endif %}</span>
+      </div>
+      <div class="info-item">
+        <strong>آخر تحديث:</strong>
+        <span>{{ current_time }}</span>
+      </div>
+      <div class="info-item">
+        <strong>الرسوم الحالية:</strong>
+        <span>{{ fee }} ر.س</span>
+      </div>
+      <div class="info-item">
+        <strong>إصدار النظام:</strong>
+        <span>2.1.0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Font Awesome للرموز -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  
+  <script>
+    // تحديث الوقت كل دقيقة
+    function updateCurrentTime() {
+      const now = new Date();
+      const timeElements = document.querySelectorAll('.current-time');
+      const formattedTime = now.toLocaleString('ar-EG', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
+      timeElements.forEach(el => {
+        el.textContent = formattedTime;
+      });
+    }
+    
+    // التحقق من فشل تحميل الفيديو
+    const video = document.querySelector('video');
+    const videoError = document.getElementById('videoError');
+    video.addEventListener('error', () => {
+      videoError.style.display = 'block';
+      video.style.display = 'none';
+    });
+    
+    // إعادة محاولة تحميل الفيديو كل 10 ثوانٍ إذا فشل
+    setInterval(() => {
+      if (videoError.style.display === 'block') {
+        video.src = "{{ url_for('video_feed') }}";
+        video.style.display = 'block';
+        videoError.style.display = 'none';
+      }
+    }, 10000);
+    
+    // تحديث الوقت كل دقيقة
+    setInterval(updateCurrentTime, 60000);
+    
+    // تحديث الوقت عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCurrentTime();
+    });
+  </script>
 </body>
 </html>
-
-
-
-
-

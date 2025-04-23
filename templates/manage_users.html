@@ -1,67 +1,382 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <title>إدارة المستخدمين</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة المستخدمين - نظام التعرف على الوجوه</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-
+    :root {
+      --primary-color: #3498db;
+      --primary-hover: #2980b9;
+      --success-color: #2ecc71;
+      --success-hover: #27ae60;
+      --danger-color: #e74c3c;
+      --danger-hover: #c0392b;
+      --warning-color: #f39c12;
+      --dark-color: #2c3e50;
+      --light-color: #f5f7fa;
+      --text-color: #333;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
     body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      background: url("/static/images/background3.jpg") no-repeat center center fixed;
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), 
+                  url("/static/images/background3.jpg") no-repeat center center fixed;
       background-size: cover;
+      color: white;
+      text-align: center;
       padding: 20px;
-      color: white; /* لضمان وضوح النص على الخلفية */
     }
-    table {
+    
+    .container {
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: white;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .users-table {
+      width: 100%;
       border-collapse: collapse;
+      margin: 30px auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
     }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px 12px;
+    
+    .users-table th, 
+    .users-table td {
+      padding: 15px;
+      text-align: center;
+      border: 1px solid #e0e0e0;
     }
-    th {
-      background-color: #4CAF50;
+    
+    .users-table th {
+      background-color: var(--dark-color);
       color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
     }
+    
+    .users-table td {
+      color: var(--text-color);
+      font-weight: 500;
+    }
+    
+    .users-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    .users-table tr:hover {
+      background-color: #f1f5f9;
+    }
+    
     .button {
-      padding: 5px 10px;
-      background-color: #f44336;
-      color: white;
-      border: none;
-      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 15px;
+      font-size: 0.95rem;
+      font-weight: 600;
       cursor: pointer;
+      border: none;
+      border-radius: var(--border-radius);
       text-decoration: none;
+      transition: var(--transition);
+      font-family: 'Cairo', sans-serif;
+      margin: 0 5px;
+    }
+    
+    .button i {
+      margin-left: 5px;
+    }
+    
+    .button-danger {
+      background-color: var(--danger-color);
+      color: white;
+    }
+    
+    .button-danger:hover {
+      background-color: var(--danger-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .button-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .button-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .button-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .button-success:hover {
+      background-color: var(--success-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .flash-messages {
+      margin: 20px auto;
+      max-width: 800px;
+    }
+    
+    .flash-message {
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .flash-message i {
+      margin-left: 10px;
+    }
+    
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      border-left: 4px solid var(--success-color);
+    }
+    
+    .danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      border-left: 4px solid var(--danger-color);
+    }
+    
+    .warning {
+      background-color: #fff3cd;
+      color: #856404;
+      border-left: 4px solid var(--warning-color);
+    }
+    
+    .info {
+      background-color: #d1ecf1;
+      color: #0c5460;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .admin-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background-color: var(--dark-color);
+      color: white;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .user-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .home-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 25px;
+      background-color: var(--success-color);
+      color: white;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 30px;
+      transition: var(--transition);
+    }
+    
+    .home-button:hover {
+      background-color: var(--success-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .home-button i {
+      margin-right: 8px;
+    }
+    
+    /* تحسينات للجوال */
+    @media (max-width: 768px) {
+      .users-table {
+        font-size: 0.9rem;
+      }
+      
+      .users-table th, 
+      .users-table td {
+        padding: 10px 5px;
+      }
+      
+      .button {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+      }
+      
+      h2 {
+        font-size: 1.6rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+      }
     }
   </style>
 </head>
 <body>
-  <h2>إدارة المستخدمين</h2>
-  <table>
-    <tr>
-      <th>اسم المستخدم</th>
-      <th>الدور</th>
-      <th>الإجراءات</th>
-    </tr>
-    {% for username, info in users.items() %}
-      <tr>
-        <td>{{ username }}</td>
-        <td>{{ info.role }}</td>
-        <td>
-          {% if username != 'admin' %}
-            <form action="{{ url_for('delete_user', username=username) }}" method="post" style="display:inline;">
-              <button class="button" type="submit">حذف</button>
-            </form>
-          {% else %}
-            -
-          {% endif %}
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-  <br>
-  <a class="button" style="background-color:#4CAF50;" href="{{ url_for('home') }}">عودة للصفحة الرئيسية</a>
+  <div class="container">
+    <h2><i class="fas fa-users-cog"></i> إدارة المستخدمين</h2>
+    
+    <div class="flash-messages">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+              {% if category == 'danger' %}
+                <i class="fas fa-exclamation-circle"></i>
+              {% elif category == 'success' %}
+                <i class="fas fa-check-circle"></i>
+              {% elif category == 'warning' %}
+                <i class="fas fa-exclamation-triangle"></i>
+              {% else %}
+                <i class="fas fa-info-circle"></i>
+              {% endif %}
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+    
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>اسم المستخدم</th>
+          <th>الدور</th>
+          <th>تاريخ التسجيل</th>
+          <th>حالة الحساب</th>
+          <th>الإجراءات</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for username, info in users.items() %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ username }}</td>
+            <td>
+              {% if info.role == 'admin' %}
+                <span class="admin-badge"><i class="fas fa-crown"></i> مدير النظام</span>
+              {% else %}
+                <span class="user-badge"><i class="fas fa-user"></i> مستخدم</span>
+              {% endif %}
+            </td>
+            <td>{{ info.register_date|default('غير معروف') }}</td>
+            <td>
+              {% if info.active %}
+                <span style="color: var(--success-color);"><i class="fas fa-check-circle"></i> نشط</span>
+              {% else %}
+                <span style="color: var(--danger-color);"><i class="fas fa-times-circle"></i> غير نشط</span>
+              {% endif %}
+            </td>
+            <td>
+              <div class="action-buttons">
+                {% if username != 'admin' %}
+                  <form action="{{ url_for('delete_user', username=username) }}" method="post" style="display:inline;">
+                    <button class="button button-danger" type="submit" onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم؟')">
+                      <i class="fas fa-trash-alt"></i> حذف
+                    </button>
+                  </form>
+                  <a href="{{ url_for('edit_user', username=username) }}" class="button button-primary">
+                    <i class="fas fa-edit"></i> تعديل
+                  </a>
+                  {% if info.active %}
+                    <form action="{{ url_for('toggle_user', username=username) }}" method="post" style="display:inline;">
+                      <button class="button button-warning" type="submit">
+                        <i class="fas fa-ban"></i> تعطيل
+                      </button>
+                    </form>
+                  {% else %}
+                    <form action="{{ url_for('toggle_user', username=username) }}" method="post" style="display:inline;">
+                      <button class="button button-success" type="submit">
+                        <i class="fas fa-check"></i> تفعيل
+                      </button>
+                    </form>
+                  {% endif %}
+                {% else %}
+                  <span>-</span>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    <a href="{{ url_for('register') }}" class="button button-success" style="margin-top: 20px;">
+      <i class="fas fa-user-plus"></i> إضافة مستخدم جديد
+    </a>
+    
+    <a href="{{ url_for('home') }}" class="home-button">
+      <i class="fas fa-home"></i> العودة للصفحة الرئيسية
+    </a>
+  </div>
+
+  <script>
+    // إضافة تأثيرات عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+      const rows = document.querySelectorAll('.users-table tbody tr');
+      rows.forEach((row, index) => {
+        row.style.opacity = '0';
+        row.style.transform = 'translateX(20px)';
+        
+        setTimeout(() => {
+          row.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          row.style.opacity = '1';
+          row.style.transform = 'translateX(0)';
+        }, 100 * index);
+      });
+    });
+  </script>
 </body>
 </html>
-

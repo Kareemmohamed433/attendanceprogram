@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعديل المستخدم - نظام التعرف على الوجوه</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-hover: #2980b9;
+            --success-color: #2ecc71;
+            --success-hover: #27ae60;
+            --danger-color: #e74c3c;
+            --danger-hover: #c0392b;
+            --warning-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-color: #f5f7fa;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .edit-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--box-shadow);
+            margin: 20px;
+            border-top: 5px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .edit-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .edit-container h2 {
+            margin: 0 0 25px 0;
+            color: var(--dark-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .edit-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .input-group {
+            position: relative;
+            text-align: right;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .edit-container input,
+        .edit-container select {
+            padding: 15px 15px 15px 45px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .edit-container input:focus,
+        .edit-container select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .button {
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .button i {
+            margin-left: 8px;
+        }
+        
+        .flash-messages {
+            margin-bottom: 25px;
+        }
+        
+        .flash-messages ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .flash-messages li {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .flash-messages li i {
+            margin-left: 8px;
+        }
+        
+        .danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid var(--danger-color);
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .back-to-manage {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .back-to-manage a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .back-to-manage a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 576px) {
+            .edit-container {
+                padding: 30px 20px;
+                margin: 15px;
+            }
+            
+            .edit-container h2 {
+                font-size: 1.5rem;
+            }
+            
+            .edit-container input,
+            .edit-container select {
+                padding: 12px 12px 12px 40px;
+            }
+            
+            .button {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-container">
+        <h2>تعديل المستخدم: {{ user.username }}</h2>
+        
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul>
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">
+                                {% if category == 'danger' %}
+                                    <i class="fas fa-exclamation-circle"></i>
+                                {% elif category == 'success' %}
+                                    <i class="fas fa-check-circle"></i>
+                                {% elif category == 'warning' %}
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                {% else %}
+                                    <i class="fas fa-info-circle"></i>
+                                {% endif %}
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+        
+        <form method="post">
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="كلمة المرور الجديدة" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-user-shield"></i>
+                <select name="role" required>
+                    <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>مدير النظام</option>
+                    <option value="user" {% if user.role == 'user' %}selected{% endif %}>مستخدم</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="button">
+                <i class="fas fa-save"></i> حفظ التغييرات
+            </button>
+        </form>
+        
+        <div class="back-to-manage">
+            <a href="{{ url_for('manage_users') }}">العودة إلى إدارة المستخدمين</a>
+        </div>
+    </div>
+</body>
+</html>

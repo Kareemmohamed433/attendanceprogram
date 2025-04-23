@@ -1,72 +1,453 @@
-<<!doctype html>
-<html lang="ar">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <title>حالة الحضور</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      background: url("/static/images/background3.jpg") no-repeat center center fixed;
-      background-size: cover;
-      padding: 20px;
-    }
-    table {
-      margin: 0 auto;
-      border-collapse: collapse;
-      background: rgba(255, 255, 255, 0.9); /* خلفية بيضاء شفافة قليلاً */
-      border-radius: 10px;
-    }
-    th, td {
-      border: 1px solid black; /* لون الحدود أسود */
-      padding: 8px 12px;
-      color: black; /* لون النص أسود */
-    }
-    th {
-      background-color: #4CAF50;
-      color: white; /* عناوين الأعمدة بلون أبيض */
-    }
-    .button {
-      display: inline-block;
-      padding: 5px 10px;
-      font-size: 14px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-    }
-  </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير الحضور والدفع</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --primary-color: #3498db; 
+            --success-color: #2ecc71; 
+            --danger-color: #e74c3c; 
+            --warning-color: #f39c12; 
+            --dark-color: #2c3e50; 
+            --light-color: #ecf0f1; 
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f5f7fa; 
+            color: #333; 
+            line-height: 1.6; 
+        }
+        .container { 
+            max-width: 1400px;
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .header { 
+            background-color: var(--dark-color); 
+            color: white; 
+            padding: 25px 0; 
+            text-align: center; 
+            border-radius: var(--border-radius) var(--border-radius) 0 0; 
+            margin-bottom: 30px; 
+            box-shadow: var(--box-shadow);
+        }
+        h1, h2 { 
+            margin: 0; 
+            color: white; 
+            font-weight: 700;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        .dashboard { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; 
+            margin-bottom: 30px; 
+        }
+        .stat-card { 
+            background: white; 
+            padding: 25px; 
+            border-radius: var(--border-radius); 
+            box-shadow: var(--box-shadow); 
+            text-align: center; 
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--dark-color);
+        }
+        .stat-card:hover { 
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        .stat-card h3 { 
+            color: var(--dark-color); 
+            margin-top: 0; 
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .stat-value { 
+            font-size: 2rem; 
+            font-weight: bold; 
+            margin: 15px 0; 
+        }
+        .paid { color: var(--success-color); }
+        .unpaid { color: var(--danger-color); }
+        .attendance-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 30px 0; 
+            background: white; 
+            border-radius: var(--border-radius); 
+            overflow: hidden; 
+            box-shadow: var(--box-shadow);
+        }
+        .attendance-table th, .attendance-table td { 
+            padding: 15px; 
+            text-align: center; 
+            border: 1px solid #e0e0e0; 
+        }
+        .attendance-table th { 
+            background-color: var(--dark-color); 
+            color: white; 
+            font-weight: 600; 
+            position: sticky;
+            top: 0; 
+            z-index: 1; 
+            font-size: 1.05rem;
+        }
+        .attendance-table tr:nth-child(even) { background-color: #f9f9f9; }
+        .attendance-table tr:hover { background-color: #f1f5f9; }
+        .status-badge { 
+            display: inline-block; 
+            padding: 6px 12px; 
+            border-radius: 20px; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+        }
+        .paid-badge { background-color: #d4edda; color: #155724; }
+        .unpaid-badge { background-color: #f8d7da; color: #721c24; }
+        .button { 
+            display: inline-block; 
+            padding: 10px 20px; 
+            background-color: var(--primary-color); 
+            color: white; 
+            border: none; 
+            border-radius: var(--border-radius); 
+            text-decoration: none; 
+            font-size: 0.95rem; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+            margin: 5px;
+        }
+        .button:hover { 
+            opacity: 0.9; 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .button-success { background-color: var(--success-color); }
+        .button-danger { background-color: var(--danger-color); }
+        .button-warning { background-color: var(--warning-color); }
+        .actions { 
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: center; 
+            gap: 15px; 
+            margin-top: 30px; 
+        }
+        .filter-section { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+            margin-bottom: 30px; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        .filter-section select, .filter-section input { 
+            padding: 12px 15px; 
+            border-radius: var(--border-radius); 
+            border: 1px solid #ddd; 
+            font-size: 1rem; 
+            min-width: 220px;
+            font-family: 'Cairo', sans-serif;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .filter-section select:focus, .filter-section input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        .notification { 
+            padding: 15px; 
+            margin-bottom: 25px; 
+            border-radius: var(--border-radius); 
+            text-align: center; 
+            display: none;
+            font-weight: 500;
+            box-shadow: var(--box-shadow);
+        }
+        .notification.success { 
+            background-color: #d4edda; 
+            color: #155724; 
+            border-left: 5px solid #28a745;
+        }
+        .notification.error { 
+            background-color: #f8d7da; 
+            color: #721c24; 
+            border-left: 5px solid #dc3545;
+        }
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        /* تحسينات للجوال */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .header {
+                padding: 15px 0;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            .attendance-table {
+                font-size: 0.9rem;
+            }
+            .attendance-table th, .attendance-table td {
+                padding: 10px 5px;
+            }
+            .button {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+            .filter-section select, .filter-section input {
+                width: 100%;
+                min-width: auto;
+            }
+            .stat-card {
+                padding: 15px;
+            }
+            .stat-value {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* تحسينات للطابعة */
+        @media print {
+            body {
+                background-color: white;
+                font-size: 12pt;
+            }
+            .header, .filter-section, .actions {
+                display: none;
+            }
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+            .attendance-table {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .attendance-table th {
+                background-color: #f5f5f5 !important;
+                color: black !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h2>حالة الحضور الشهري</h2>
-  <table>
-    <tr>
-      <th>الطالب</th>
-      <th>عدد الأيام</th>
-      <th>ملاحظات</th>
-      <th>الدفع</th>
-      <th>طريقة الدفع</th>
-      <th>تحديد الدفع</th>
-    </tr>
-    {% for data in monthly_data %}
-    <tr>
-      <td>{{ data.name }}</td>
-      <td>{{ data.count }}</td>
-      <td>{{ data.message }}</td>
-      <td>{{ data.paid }}</td>
-      <td>{{ data.method }}</td>
-      <td>
-        {% if data.paid == 'Not Paid' %}
-          <a class="button" href="{{ url_for('mark_paid', student=data.name) }}">تحديد الدفع</a>
-        {% else %}
-          -
-        {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
-  <br>
-  <a class="button" href="{{ url_for('home') }}">عودة للصفحة الرئيسية</a>
+    <div class="container">
+        <!-- إشعارات النظام -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="notification {{ category }}" style="display: block;">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="header">
+            <h1>نظام متابعة الحضور والدفع</h1>
+            <h2>تقرير الحضور الشهري - {{ "اليوم: " + current_date }}</h2>
+        </div>
+
+        <!-- قسم الفلاتر -->
+        <div class="filter-section">
+            <!-- فلتر المجموعات/الجلسات -->
+            <select onchange="window.location.href='{{ url_for('attendance_status') }}?group='+this.value+'&search={{ search_query|urlencode }}&month={{ selected_month|urlencode }}'">
+                <option value="all" {% if selected_group == 'all' %}selected{% endif %}>جميع المجموعات/الجلسات</option>
+                {% for group in groups %}
+                    <option value="{{ group.name|urlencode }}" {% if selected_group == group.name %}selected{% endif %}>{{ group.name }} - {{ group.time }}</option>
+                {% endfor %}
+                {% for section in sections %}
+                    <option value="{{ section.name|urlencode }}" {% if selected_group == section.name %}selected{% endif %}>{{ section.name }} - {{ section.date }}</option>
+                {% endfor %}
+            </select>
+        
+            <!-- فلتر الشهر -->
+            <select onchange="window.location.href='{{ url_for('attendance_status') }}?group={{ selected_group|urlencode }}&search={{ search_query|urlencode }}&month='+this.value">
+                <option value="all" {% if selected_month == 'all' %}selected{% endif %}>جميع الأشهر</option>
+                {% for month in months %}
+                    <option value="{{ month.value }}" {% if selected_month == month.value %}selected{% endif %}>{{ month.name }}</option>
+                {% endfor %}
+            </select>
+        
+            <!-- حقل البحث -->
+            <input type="text" placeholder="ابحث عن طالب..." value="{{ search_query|default('') }}"
+                   onkeydown="if(event.key === 'Enter') window.location.href='{{ url_for('attendance_status') }}?group={{ selected_group|urlencode }}&search='+encodeURIComponent(this.value)+'&month={{ selected_month|urlencode }}'">
+        </div>
+
+        <!-- لوحة الإحصائيات -->
+        <div class="dashboard">
+            <div class="stat-card">
+                <h3>إجمالي الطلاب</h3>
+                <div class="stat-value">{{ total_students }}</div>
+                <p>المسجلين في النظام</p>
+            </div>
+            <div class="stat-card">
+                <h3>أيام الحضور</h3>
+                <div class="stat-value">{{ total_attendance_days }}</div>
+                <p>إجمالي أيام الحضور</p>
+            </div>
+            <div class="stat-card">
+                <h3>المدفوع</h3>
+                <div class="stat-value paid">{{ paid_count }} ({{ payment_percentage }}%)</div>
+                <p>نسبة المدفوع</p>
+            </div>
+            <div class="stat-card">
+                <h3>غير المدفوع</h3>
+                <div class="stat-value unpaid">{{ unpaid_count }}</div>
+                <p>طلبات معلقة</p>
+            </div>
+            <div class="stat-card">
+                <h3>متوسط الحضور</h3>
+                <div class="stat-value">{{ average_attendance }} يوم</div>
+                <p>لكل طالب</p>
+            </div>
+            <div class="stat-card">
+                <h3>المبلغ المتبقي</h3>
+                <div class="stat-value unpaid">{{ remaining_amount }} ر.س</div>
+                <p>إجمالي المبالغ غير المسددة</p>
+            </div>
+        </div>
+
+        <!-- جدول الحضور -->
+        <div style="overflow-x: auto;">
+            <table class="attendance-table">
+                <thead>
+                    <tr>
+                        <th>م</th>
+                        <th>اسم الطالب</th>
+                        <th>المجموعة/الجلسة</th>
+                        <th>عدد أيام الحضور</th>
+                        <th>الحالة</th>
+                        <th>مبلغ الرسوم</th>
+                        <th>حالة الدفع</th>
+                        <th>طريقة الدفع</th>
+                        <th>تاريخ آخر دفع</th>
+                        <th>رقم الهاتف</th>
+                        <th>إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in monthly_data %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ url_for('student_profile', student_name=data.name) }}">{{ data.name }}</a></td>
+                        <td>{{ data.group }}</td>
+                        <td>{{ data.count }}</td>
+                        <td>
+                            {% if data.count >= required_days %}
+                                <span class="status-badge paid-badge">منتظم</span>
+                            {% else %}
+                                <span class="status-badge unpaid-badge">غير منتظم</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ data.fee }} ر.س</td>
+                        <td>
+                            {% if data.paid == 'Paid' %}
+                                <span class="status-badge paid-badge">تم الدفع</span>
+                            {% else %}
+                                <span class="status-badge unpaid-badge">لم يتم الدفع</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ data.method or '--' }}</td>
+                        <td>{{ data.last_payment_date or '--' }}</td>
+                        <td>{{ data.phone_number or '--' }}</td>
+                        <td>
+                            <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                                {% if data.paid == 'Not Paid' %}
+                                    <a class="button button-success" href="{{ url_for('mark_paid', student=data.name) }}">تسديد</a>
+                                {% else %}
+                                    <a class="button button-warning" href="{{ url_for('mark_unpaid', student=data.name) }}">إلغاء</a>
+                                {% endif %}
+                                <a class="button" href="{{ url_for('student_profile', student_name=data.name) }}">تفاصيل</a>
+                                <a class="button button-danger" href="{{ url_for('send_manual_reminder', student=data.name) }}">تنبيه</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- أزرار الإجراءات -->
+        <div class="actions">
+            <a class="button" href="{{ url_for('export_attendance') }}" download>تصدير البيانات (Excel)</a>
+            <a class="button" onclick="window.print()">طباعة التقرير</a>
+            <a class="button button-success" href="{{ url_for('send_reminders') }}">إرسال تنبيهات جماعية</a>
+            <a class="button button-warning" href="{{ url_for('reset_attendance') }}">إعادة تعيين الحضور</a>
+            <a class="button button-danger" href="{{ url_for('home') }}">العودة للرئيسية</a>
+        </div>
+    </div>
+
+    <!-- سكربتات JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // إخفاء الإشعارات بعد 5 ثوانٍ
+            const notifications = document.querySelectorAll('.notification');
+            notifications.forEach(notification => {
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 300);
+                }, 5000);
+            });
+            
+            // تنبيه قبل إعادة تعيين الحضور
+            const resetBtn = document.querySelector('a[href*="reset_attendance"]');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function(e) {
+                    if (!confirm('هل أنت متأكد من أنك تريد إعادة تعيين بيانات الحضور؟ هذا الإجراء لا يمكن التراجع عنه.')) {
+                        e.preventDefault();
+                    }
+                });
+            }
+            
+            // تحسين تجربة البحث
+            const searchInput = document.querySelector('.filter-section input[type="text"]');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        this.blur();
+                    }
+                });
+            }
+        });
+        
+        // دالة للبحث الفوري (إذا أردت إضافتها لاحقًا)
+        function liveSearch() {
+            // يمكن تطوير هذه الدالة للبحث دون الحاجة لضغط Enter
+        }
+    </script>
 </body>
 </html>
